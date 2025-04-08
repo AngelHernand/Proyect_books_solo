@@ -1,0 +1,621 @@
+﻿@{
+    Layout = null;
+    ViewData["Title"] = "VyR Book - Descubre tu próxima lectura";
+}
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewData["Title"]</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --dark-bg: #121212;
+            --darker-bg: #0a0a0a;
+            --card-bg: #1e1e1e;
+            --accent: #9370DB; /* Púrpura suave */
+            --accent-hover: #8A2BE2;
+            --text: #e0e0e0;
+            --text-secondary: #aaaaaa;
+            --border-radius: 12px;
+            --transition: all 0.3s ease;
+            --shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Poppins', sans-serif;
+            line-height: 1.6;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            background-color: var(--dark-bg);
+            color: var(--text);
+            position: relative;
+        }
+
+            body::before {
+                content: '';
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: radial-gradient(circle at right top, rgba(147, 112, 219, 0.15), transparent 40%), radial-gradient(circle at left bottom, rgba(147, 112, 219, 0.1), transparent 30%);
+                z-index: -1;
+                pointer-events: none;
+            }
+
+        .navbar {
+            background-color: rgba(20, 20, 20, 0.98);
+            backdrop-filter: blur(10px);
+            padding: 0.8rem 2rem;
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .navbar-brand {
+            color: var(--accent);
+            font-weight: 700;
+            font-size: 1.6rem;
+            display: flex;
+            align-items: center;
+        }
+
+            .navbar-brand i {
+                margin-right: 10px;
+                font-size: 1.8rem;
+            }
+
+        .nav-auth {
+            display: flex;
+            gap: 15px;
+        }
+
+        .btn-login, .btn-register {
+            padding: 0.6rem 1.5rem;
+            border-radius: var(--border-radius);
+            font-weight: 500;
+            transition: var(--transition);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-size: 0.9rem;
+        }
+
+        .btn-login {
+            background-color: var(--accent);
+            color: #fff;
+            border: none;
+        }
+
+            .btn-login:hover {
+                background-color: var(--accent-hover);
+                transform: translateY(-2px);
+            }
+
+        .btn-register {
+            background-color: transparent;
+            color: var(--text);
+            border: 1px solid var(--accent);
+        }
+
+            .btn-register:hover {
+                background-color: rgba(147, 112, 219, 0.1);
+                color: var(--accent);
+                transform: translateY(-2px);
+            }
+
+        .hero-section {
+            text-align: center;
+            padding: 3.5rem 1rem;
+        }
+
+            .hero-section h1 {
+                font-size: 2.5rem;
+                font-weight: 700;
+                margin-bottom: 1rem;
+                background: linear-gradient(to right, var(--accent), #d16ba5);
+                -webkit-background-clip: text;
+                background-clip: text;
+                color: transparent;
+            }
+
+            .hero-section p {
+                font-size: 1.2rem;
+                color: var(--text-secondary);
+                max-width: 700px;
+                margin: 0 auto 2.5rem;
+            }
+
+        .search-container {
+            max-width: 600px;
+            margin: 0 auto 3rem;
+            position: relative;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 1rem 1.5rem;
+            border-radius: var(--border-radius);
+            background-color: var(--card-bg);
+            border: 1px solid #333;
+            color: var(--text);
+            font-size: 1rem;
+            padding-left: 3rem;
+            transition: var(--transition);
+        }
+
+            .search-input:focus {
+                outline: none;
+                border-color: var(--accent);
+                box-shadow: 0 0 0 2px rgba(147, 112, 219, 0.2);
+            }
+
+        .search-icon {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-secondary);
+            font-size: 1.2rem;
+        }
+
+        .categories {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 3rem;
+        }
+
+        .category-badge {
+            padding: 0.5rem 1rem;
+            background-color: var(--card-bg);
+            border-radius: 50px;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            transition: var(--transition);
+            cursor: pointer;
+            border: 1px solid #333;
+        }
+
+            .category-badge:hover, .category-badge.active {
+                background-color: var(--accent);
+                color: #fff;
+                border-color: var(--accent);
+                transform: translateY(-2px);
+            }
+
+        .books-section {
+            padding: 0 2rem 4rem;
+        }
+
+        .section-title {
+            font-size: 1.8rem;
+            font-weight: 600;
+            margin-bottom: 2rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+            .section-title i {
+                color: var(--accent);
+            }
+
+        .book-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 25px;
+            list-style: none;
+            padding: 0;
+        }
+
+        .book-card {
+            background: var(--card-bg);
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            transition: var(--transition);
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            box-shadow: var(--shadow);
+            position: relative;
+        }
+
+            .book-card:hover {
+                transform: translateY(-8px);
+                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            }
+
+        .book-cover {
+            height: 280px;
+            overflow: hidden;
+            position: relative;
+        }
+
+            .book-cover img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                transition: transform 0.5s ease;
+            }
+
+        .book-card:hover .book-cover img {
+            transform: scale(1.05);
+        }
+
+        .book-details {
+            padding: 1.2rem;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .book-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 0.4rem;
+            color: var(--text);
+        }
+
+        .book-author {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-bottom: 0.8rem;
+        }
+
+        .book-rating {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            margin-top: auto;
+        }
+
+        .stars {
+            color: #FFD700;
+            font-size: 0.9rem;
+        }
+
+        .book-rating span {
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+        }
+
+        .book-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: rgba(147, 112, 219, 0.9);
+            color: white;
+            padding: 0.3rem 0.7rem;
+            border-radius: 50px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .explore-more {
+            text-align: center;
+            margin-top: 3rem;
+        }
+
+        .btn-explore {
+            background-color: transparent;
+            border: 1px solid var(--accent);
+            color: var(--accent);
+            padding: 0.8rem 2rem;
+            border-radius: var(--border-radius);
+            font-weight: 500;
+            transition: var(--transition);
+            font-size: 1rem;
+        }
+
+            .btn-explore:hover {
+                background-color: var(--accent);
+                color: white;
+                transform: translateY(-3px);
+            }
+
+        footer {
+            background-color: var(--darker-bg);
+            padding: 2.5rem 0;
+            text-align: center;
+            color: var(--text-secondary);
+            border-top: 1px solid #333;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            padding: 0 2rem;
+            text-align: left;
+        }
+
+        .footer-col h4 {
+            color: var(--text);
+            font-size: 1.2rem;
+            margin-bottom: 1.2rem;
+            font-weight: 600;
+        }
+
+        .footer-col ul {
+            list-style: none;
+            padding: 0;
+        }
+
+            .footer-col ul li {
+                margin-bottom: 0.8rem;
+            }
+
+        .footer-col a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+            .footer-col a:hover {
+                color: var(--accent);
+                padding-left: 5px;
+            }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 1rem;
+        }
+
+            .social-links a {
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                width: 40px;
+                height: 40px;
+                border-radius: 50%;
+                background-color: var(--card-bg);
+                color: var(--text);
+                transition: var(--transition);
+            }
+
+                .social-links a:hover {
+                    background-color: var(--accent);
+                    color: white;
+                    transform: translateY(-3px);
+                }
+
+        .copyright {
+            margin-top: 2rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid #333;
+            font-size: 0.9rem;
+        }
+
+        
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg sticky-top">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">
+                <i class="fas fa-book-open"></i>
+                VyR Book
+            </a>
+            <div class="nav-auth ms-auto">
+                <a href="/User/Login" class="btn-login">Iniciar Sesión</a>
+                <a asp-controller="User" asp-action="Create" class="btn-register">Registrarse</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="container">
+            <h1>Descubre tu próxima aventura literaria</h1>
+            <p>Explora miles de libros recomendados por lectores como tú y encuentra tu próxima lectura favorita.</p>
+
+        
+            <!-- Categories -->
+            <div class="categories">
+                <span class="category-badge">Ficción</span>
+                <span class="category-badge">No ficción</span>
+                <span class="category-badge">Fantasía</span>
+                <span class="category-badge">Romance</span>
+                <span class="category-badge">Ciencia</span>
+                <span class="category-badge">Historia</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Recommended Books Section -->
+    <section class="books-section">
+        <div class="container">
+            <h2 class="section-title"><i class="fas fa-star"></i> Mas buscados</h2>
+            <div class="book-grid">
+                <!-- Book 1 -->
+                <div class="book-card">
+                    <div class="book-badge">Destacado</div>
+                    <div class="book-cover">
+                        <img src="https://images.unsplash.com/photo-1544947950-fa07a98d237f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjB8fGJvb2t8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=500&q=60" alt="El Principito">
+                    </div>
+                    <div class="book-details">
+                        <h3 class="book-title">El Principito</h3>
+                        <p class="book-author">Antoine de Saint-Exupéry</p>
+                        <div class="book-rating">
+                            <div class="stars">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star-half-alt"></i>
+                            </div>
+                            <span>4.5 (2.3k reseñas)</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Book 2 -->
+                <div class="book-card">
+                    <div class="book-cover">
+                        <img src="https://images.unsplash.com/photo-1541963463532-d68292c34b19?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8Ym9va3xlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&w=500&q=60" alt="Cien Años de Soledad">
+                    </div>
+                    <div class="book-details">
+                        <h3 class="book-title">Cien Años de Soledad</h3>
+                        <p class="book-author">Gabriel García Márquez</p>
+                        <div class="book-rating">
+                            <div class="stars">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                            </div>
+                            <span>5.0 (4.1k reseñas)</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Book 3 -->
+                <div class="book-card">
+                    <div class="book-cover">
+                        <img src="https://images.unsplash.com/photo-1587876931567-564ce588bfbd?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTd8fGJvb2t8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=500&q=60" alt="1984">
+                    </div>
+                    <div class="book-details">
+                        <h3 class="book-title">1984</h3>
+                        <p class="book-author">George Orwell</p>
+                        <div class="book-rating">
+                            <div class="stars">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="far fa-star"></i>
+                            </div>
+                            <span>4.0 (3.7k reseñas)</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Book 4 -->
+                <div class="book-card">
+                    <div class="book-badge">Nuevo</div>
+                    <div class="book-cover">
+                        <img src="https://images.unsplash.com/photo-1544947950-fa07a98d237f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjB8fGJvb2t8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=500&q=60" alt="Orgullo y Prejuicio">
+                    </div>
+                    <div class="book-details">
+                        <h3 class="book-title">Orgullo y Prejuicio</h3>
+                        <p class="book-author">Jane Austen</p>
+                        <div class="book-rating">
+                            <div class="stars">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star-half-alt"></i>
+                                <i class="far fa-star"></i>
+                            </div>
+                            <span>3.5 (2.8k reseñas)</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Book 5 -->
+                <div class="book-card">
+                    <div class="book-cover">
+                        <img src="https://images.unsplash.com/photo-1621351183012-e2f9972dd9bf?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NDF8fGJvb2t8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=500&q=60" alt="Don Quijote de la Mancha">
+                    </div>
+                    <div class="book-details">
+                        <h3 class="book-title">Don Quijote de la Mancha</h3>
+                        <p class="book-author">Miguel de Cervantes</p>
+                        <div class="book-rating">
+                            <div class="stars">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star-half-alt"></i>
+                            </div>
+                            <span>4.5 (1.9k reseñas)</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="explore-more">
+                <button class="btn-explore">Explorar tu siguiente aventura></button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-col">
+                <h4>VyR Book</h4>
+                <p>Descubre, explora y comparte tus libros favoritos en la comunidad literaria más apasionada.</p>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+            </div>
+            <div class="footer-col">
+                <h4>Explorar</h4>
+                <ul>
+                    <li><a href="#">Categorías</a></li>
+                    <li><a href="#">Autores</a></li>
+                    <li><a href="#">Nuevos lanzamientos</a></li>
+                    <li><a href="#">Más vendidos</a></li>
+                    <li><a href="#">Recomendaciones</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Cuenta</h4>
+                <ul>
+                    <li><a href="#">Iniciar Sesión</a></li>
+                    <li><a href="#">Registrarse</a></li>
+                    <li><a href="#">Mi biblioteca</a></li>
+                    <li><a href="#">Historial de lectura</a></li>
+                    <li><a href="#">Lista de deseos</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Ayuda</h4>
+                <ul>
+                    <li><a href="#">Centro de ayuda</a></li>
+                    <li><a href="#">Contacto</a></li>
+                    <li><a href="#">Términos de servicio</a></li>
+                    <li><a href="#">Política de privacidad</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="copyright">
+            <p>© 2023 VyR Book. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS and Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Script para manejar las categorías
+        document.addEventListener('DOMContentLoaded', function() {
+            const categoryBadges = document.querySelectorAll('.category-badge');
+
+            categoryBadges.forEach(badge => {
+                badge.addEventListener('click', function() {
+                    categoryBadges.forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                });
+            });
+        });
+    </script>
+</body>
+</html>

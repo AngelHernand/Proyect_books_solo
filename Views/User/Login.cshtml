@@ -1,0 +1,275 @@
+﻿@{
+    Layout = null;
+    ViewData["Title"] = "Iniciar Sesión";
+}
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewData["Title"] - Book World</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #7E52C4;
+            --secondary: #CF69FF;
+            --dark: #121212;
+            --dark-accent: #1E1E1E;
+            --text: #E0E0E0;
+            --text-secondary: #9E9E9E;
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Poppins', sans-serif;
+            line-height: 1.6;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #0F0F0F 0%, #1F1F1F 100%);
+            color: var(--text);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .login-container {
+            display: flex;
+            width: 100%;
+            max-width: 900px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.5);
+            border-radius: 15px;
+            overflow: hidden;
+            height: 550px;
+        }
+
+        .login-image {
+            flex: 1;
+            background-image: url('https://images.unsplash.com/photo-1507842217343-583bb7270b66?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80');
+            background-size: cover;
+            background-position: center;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: 40px;
+        }
+
+            .login-image::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background: linear-gradient(0deg, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.2) 100%);
+                z-index: 1;
+            }
+
+        .image-text {
+            position: relative;
+            z-index: 2;
+            color: white;
+        }
+
+            .image-text h2 {
+                font-size: 2.2rem;
+                font-weight: 700;
+                margin-bottom: 15px;
+            }
+
+            .image-text p {
+                font-size: 1rem;
+                opacity: 0.9;
+                max-width: 90%;
+            }
+
+        .form-side {
+            flex: 1;
+            background-color: var(--dark-accent);
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .form-header {
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+            .form-header h1 {
+                font-size: 1.8rem;
+                font-weight: 600;
+                color: var(--text);
+                margin-bottom: 10px;
+            }
+
+            .form-header p {
+                color: var(--text-secondary);
+                font-size: 0.9rem;
+            }
+
+        .form-group {
+            margin-bottom: 25px;
+            position: relative;
+        }
+
+        .form-control {
+            background-color: rgba(255, 255, 255, 0.05);
+            border: none;
+            border-bottom: 2px solid var(--text-secondary);
+            border-radius: 0;
+            padding: 12px 15px;
+            padding-left: 40px;
+            font-size: 0.95rem;
+            color: var(--text);
+            transition: all 0.3s ease;
+        }
+
+            .form-control:focus {
+                background-color: rgba(255, 255, 255, 0.1);
+                box-shadow: none;
+                border-color: var(--primary);
+            }
+
+            .form-control::placeholder {
+                color: var(--text-secondary);
+                opacity: 0.7;
+            }
+
+        .form-icon {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-secondary);
+        }
+
+        .submit-btn {
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            color: white;
+            border: none;
+            padding: 14px 30px;
+            font-size: 1rem;
+            font-weight: 500;
+            border-radius: 30px;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 20px;
+            transition: all 0.3s ease;
+        }
+
+            .submit-btn:hover {
+                box-shadow: 0 8px 20px rgba(126, 82, 196, 0.3);
+                transform: translateY(-2px);
+            }
+
+        .login-footer {
+            text-align: center;
+            margin-top: 30px;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        .forgot-password {
+            color: var(--text-secondary);
+            text-align: right;
+            display: block;
+            margin-top: 10px;
+            font-size: 0.9rem;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+            .forgot-password:hover {
+                color: var(--primary);
+            }
+
+        .register-link {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+            .register-link:hover {
+                color: var(--secondary);
+                text-decoration: underline;
+            }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 30px;
+        }
+
+            .logo i {
+                font-size: 28px;
+                color: var(--primary);
+                margin-right: 10px;
+            }
+
+            .logo span {
+                font-size: 22px;
+                font-weight: 700;
+                background: linear-gradient(90deg, var(--primary), var(--secondary));
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+            }
+
+  
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <div class="login-image">
+            <div class="image-text">
+                <h2>Descubre Mundos Infinitos</h2>
+                <p>Explora recomendaciones personalizadas y encuentra tu próxima aventura literaria con VyR Book.</p>
+            </div>
+        </div>
+
+        <div class="form-side">
+            <div class="logo">
+                <i class="fas fa-book-open"></i>
+                <span>Book World</span>
+            </div>
+
+            <div class="form-header">
+                <h1>Bienvenido de nuevo</h1>
+                <p>Por favor ingresa tus credenciales para continuar</p>
+            </div>
+
+            <form asp-action="Login" asp-controller="User" method="post">
+                <div class="form-group">
+                    <i class="fas fa-user form-icon"></i>
+                    <input class="form-control" type="text" name="username" id="username" placeholder="Nombre de usuario" required />
+                </div>
+
+                <div class="form-group">
+                    <i class="fas fa-lock form-icon"></i>
+                    <input class="form-control" type="password" name="password" id="password" placeholder="Contraseña" required />
+                </div>
+
+                <button class="submit-btn" type="submit">
+                    Iniciar Sesión <i class="fas fa-arrow-right ms-2"></i>
+                </button>
+
+                <div class="login-footer">
+                    ¿No tienes una cuenta? <a href="#" class="register-link">Regístrate ahora</a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS (opcional, solo si necesitas componentes interactivos) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

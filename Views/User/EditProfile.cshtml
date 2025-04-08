@@ -1,0 +1,147 @@
+﻿@model Proyect_Solo_Recommendation.Models.EditProfileViewModel
+
+@{
+    Layout = null;
+    ViewData["Title"] = "Editar Perfil";
+}
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewData["Title"]</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            transition: background-color 0.3s, color 0.3s;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            min-height: 100vh;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .container {
+            width: 100%;
+            max-width: 600px;
+            background: var(--container-bg);
+            color: var(--text-color);
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            padding: 30px;
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        button {
+            width: 100%;
+            margin-top: 20px;
+        }
+        :root {
+            --bg-color: #f3f4f6; /* Fondo general del sitio en modo claro */
+            --container-bg: #fff; /* Fondo del contenedor en modo claro */
+            --text-color: #333; /* Color del texto en modo claro */
+            --input-bg: #fff; /* Fondo de los inputs en modo claro */
+            --input-border: #ccc;
+            --btn-bg: #0d6efd;
+            --btn-text: #fff;
+        }
+        [data-theme="dark"] {
+            --bg-color: #121212; /* Fondo general del sitio en modo oscuro */
+            --container-bg: #1e1e1e; /* Fondo del contenedor en modo oscuro */
+            --text-color: #e4e6eb;
+            --input-bg: #242526;
+            --input-border: #3a3b3c;
+            --btn-bg: #4a90e2;
+            --btn-text: #fff;
+        }
+        .form-control {
+            background: var(--input-bg) !important;
+            border: 1px solid var(--input-border) !important;
+            color: var(--text-color) !important;
+        }
+        .form-control:focus {
+            box-shadow: 0 0 5px rgba(0, 123, 255, .5);
+        }
+        .btn-primary {
+            background: var(--btn-bg);
+            color: var(--btn-text);
+        }
+        .theme-toggle {
+            cursor: pointer;
+            font-size: 1.2rem;
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: var(--btn-bg);
+            color: var(--btn-text);
+            padding: 5px 10px;
+            border-radius: 5px;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body>
+    <button class="theme-toggle" onclick="toggleTheme()">🌙 Cambiar Tema</button>
+    
+    <div class="container mt-5">
+        <h1>Editar Perfil</h1>
+        <form asp-action="EditProfile" method="post" enctype="multipart/form-data">
+            <div class="mb-3">
+                <label for="Firstname" class="form-label">Nombre:</label>
+                <input type="text" id="Firstname" name="Firstname" value="@Model.Firstname" required class="form-control" />
+            </div>
+            
+            <div class="mb-3">
+                <label for="Lastname" class="form-label">Apellido:</label>
+                <input type="text" id="Lastname" name="Lastname" value="@Model.Lastname" required class="form-control" />
+            </div>
+            
+            <div class="mb-3">
+                <label for="Description" class="form-label">Descripción:</label>
+                <textarea id="Description" name="Description" required class="form-control" rows="3">@Model.Description</textarea>
+            </div>
+            
+            <div class="mb-3">
+                <label for="ProfileImage" class="form-label">Imagen de Perfil:</label>
+                <input type="file" id="ProfileImage" name="ProfileImage" accept="image/*" class="form-control" />
+            </div>
+            
+            <div class="mb-3">
+                <label for="CurrentPassword" class="form-label">Contraseña Actual:</label>
+                <input type="password" id="CurrentPassword" name="CurrentPassword" required class="form-control" />
+            </div>
+            
+            <div class="mb-3">
+                <label for="NewPassword" class="form-label">Nueva Contraseña (opcional):</label>
+                <input type="password" id="NewPassword" name="NewPassword" class="form-control" />
+            </div>
+            
+            <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+        </form>
+    </div>
+
+    <script>
+        const prefersDarkScheme = window.matchMedia("(prefers-color-scheme: dark)");
+        const currentTheme = localStorage.getItem("theme");
+
+        if (currentTheme === "dark") {
+            document.body.setAttribute("data-theme", "dark");
+        } else if (currentTheme === "light") {
+            document.body.setAttribute("data-theme", "light");
+        } else if (prefersDarkScheme.matches) {
+            document.body.setAttribute("data-theme", "dark");
+        }
+
+        function toggleTheme() {
+            const theme = document.body.getAttribute("data-theme") === "dark" ? "light" : "dark";
+            document.body.setAttribute("data-theme", theme);
+            localStorage.setItem("theme", theme);
+        }
+    </script>
+</body>
+</html>
