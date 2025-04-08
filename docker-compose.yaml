@@ -1,0 +1,26 @@
+services:
+  db:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: sqlserver
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=Angelb127.
+    ports:
+      - "1433:1433"
+    volumes:
+      - sqlserver_data:/var/opt/mssql
+
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: webapp
+    ports:
+      - "5030:8080"
+    depends_on:
+      - db
+    environment:
+      - DB_CONNECTION_STRING=Server=db;Database=Data_Books;User Id=sa;Password=Angelb127.;Encrypt=False;TrustServerCertificate=True;
+
+volumes:
+    sqlserver_data: {}
